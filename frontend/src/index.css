@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-surface-900 text-slate-100 font-sans antialiased;
+    background: linear-gradient(180deg, #0f172a 0%, #1a2744 100%);
+    min-height: 100vh;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-surface-900; }
+  ::-webkit-scrollbar-thumb { @apply bg-surface-700 rounded-full; }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface-800 border border-surface-700 rounded-2xl;
+    backdrop-filter: blur(12px);
+  }
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200
+           hover:opacity-90 hover:scale-[1.02] active:scale-95 focus:outline-none;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  }
+  .btn-ghost {
+    @apply px-6 py-3 rounded-xl font-semibold text-slate-300 border border-surface-700
+           hover:bg-surface-700 transition-all duration-200 focus:outline-none;
+  }
+  .input-field {
+    @apply w-full bg-surface-900 border border-surface-700 rounded-xl px-4 py-3
+           text-slate-100 placeholder-slate-500 focus:outline-none focus:border-brand-500
+           transition-colors duration-200;
+  }
+  .badge {
+    @apply px-3 py-1 rounded-full text-xs font-semibold;
+  }
+  .urgency-critical { @apply bg-red-500/20 text-red-400 border border-red-500/30; }
+  .urgency-warning  { @apply bg-orange-500/20 text-orange-400 border border-orange-500/30; }
+  .urgency-ok       { @apply bg-brand-500/20 text-brand-400 border border-brand-500/30; }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
