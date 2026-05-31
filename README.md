@@ -6,8 +6,8 @@ FinRoute is a full-stack web application that helps you track, manage, and optim
 ---
 
 ## 🚀 Live Demo
-> **Frontend:** [Coming soon — Vercel]
-> **Backend API:** [Coming soon — Render]
+> **Frontend:** [https://finroutego.vercel.app](https://finroutego.vercel.app)
+> **Backend API:** [https://finroute-api.onrender.com](https://finroute-api.onrender.com)
 
 ---
 
