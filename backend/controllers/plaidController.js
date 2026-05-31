@@ -130,7 +130,7 @@ const createLinkToken = async (req, res) => {
       user: { client_user_id: req.user.id },
       client_name: 'FinRoute',
       products: ['transactions'],
-      country_codes: ['US', 'IN'],
+      country_codes: ['US'],
       language: 'en',
     });
 

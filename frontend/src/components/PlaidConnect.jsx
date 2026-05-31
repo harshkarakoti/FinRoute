@@ -1,5 +1,5 @@
 import { usePlaidLink } from 'react-plaid-link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiLink, FiRefreshCw, FiCheckCircle, FiXCircle } from 'react-icons/fi';
 import api from '../api/axios';
@@ -8,13 +8,16 @@ export default function PlaidConnect({ status, lastSynced, onSync }) {
   const [linkToken, setLinkToken] = useState(null);
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState(null);
+  const [connecting, setConnecting] = useState(false);
 
   const fetchLinkToken = async () => {
+    setConnecting(true);
     try {
       const { data } = await api.post('/plaid/link-token');
       setLinkToken(data.link_token);
     } catch {
       alert('Failed to initialize bank connection. Check your Plaid API keys.');
+      setConnecting(false);
     }
   };
 
@@ -27,9 +30,23 @@ export default function PlaidConnect({ status, lastSynced, onSync }) {
         onSync();
       } catch {
         alert('Token exchange failed. Try again.');
+      } finally {
+        setConnecting(false);
+        setLinkToken(null);
       }
     },
+    onExit: () => {
+      setConnecting(false);
+      setLinkToken(null);
+    },
   });
+
+  // Once link token is fetched and Plaid is ready → open automatically
+  useEffect(() => {
+    if (linkToken && ready) {
+      open();
+    }
+  }, [linkToken, ready, open]);
 
   const handleSync = async () => {
     setSyncing(true);
@@ -97,12 +114,16 @@ export default function PlaidConnect({ status, lastSynced, onSync }) {
       <div className="flex flex-wrap gap-2">
         {!isLinked ? (
           <button
-            onClick={async () => { await fetchLinkToken(); }}
-            onClickCapture={() => linkToken && open()}
+            onClick={fetchLinkToken}
+            disabled={connecting}
             className="btn-primary text-sm py-2 flex items-center gap-2"
           >
-            <FiLink size={14} />
-            Connect Bank (Plaid Sandbox)
+            {connecting ? (
+              <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            ) : (
+              <FiLink size={14} />
+            )}
+            {connecting ? 'Initializing...' : 'Connect Bank (Plaid Sandbox)'}
           </button>
         ) : (
           <>
